@@ -17,8 +17,8 @@ module SeoAssistant
 
           Entity::Keyword.new(
             id:           db_record.id,
-            word:      db_record.word,
-            eng_word:  db_record.eng_word,
+            word:         db_record.word,
+            eng_word:     db_record.eng_word,
             type:         db_record.type,
             importance:   db_record.importance,
             url:          db_record.url
