@@ -28,7 +28,7 @@ module SeoAssistant
             routing.halt 400 if (article.empty?)
 
             # Get script from API
-            text = OutAPI::ScriptMapper
+            text = OutAPI::TextMapper
               .new(JSON.parse(App.config.GOOGLE_CREDS), App.config.UNSPLASH_ACCESS_KEY)
               .process(article)
 
@@ -44,7 +44,6 @@ module SeoAssistant
           routing.get do
             article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
             article_unescaped = URI.unescape(article_encoded).to_s
-            #answer = SeoAssistant::OutAPI::ScriptMapper.new(App.config.GOOGLE_CREDS, App.config.UNSPLASH_ACCESS_KEY).process(text_unescaped)
 
             text = Repository::For.klass(Entity::Text)
             .find_text(article_unescaped)

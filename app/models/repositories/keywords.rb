@@ -6,7 +6,8 @@ module SeoAssistant
       # Repository for Keywords
       class Keywords
         def self.find_id(id)
-          rebuild_entity Database::KeywordOrm.first(id: id)
+          db_record = Database::KeywordOrm.first(id: id)
+          rebuild_entity(db_record)
         end
 
         private
@@ -14,10 +15,10 @@ module SeoAssistant
         def self.rebuild_entity(db_record)
           return nil unless db_record
 
-          Entity::Member.new(
+          Entity::Keyword.new(
             id:           db_record.id,
-            keyword:      db_record.keyword,
-            eng_keyword:  db_record.eng_keyword,
+            word:      db_record.word,
+            eng_word:  db_record.eng_word,
             type:         db_record.type,
             importance:   db_record.importance,
             url:          db_record.url
@@ -26,7 +27,7 @@ module SeoAssistant
 
         def self.rebuild_many(db_records)
           db_records.map do |db_word|
-            Members.rebuild_entity(db_word)
+            Keyword.rebuild_entity(db_word)
           end
         end
 
