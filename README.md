@@ -74,12 +74,12 @@ puts analyze_text.process.importance #array
 
 **Overall usage**
 ```ruby
-script = SeoAssistant::OutAPI::ScriptMapper
+text = SeoAssistant::OutAPI::TextMapper
   .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS), SeoAssistant::App.config.UNSPLASH_ACCESS_KEY)
   .process("狗是最好的朋友")
-puts script.each_keyword #array
-puts script.num_keyword
-puts script.keywords[0].urls.random_1_pic #string
+puts text.each_keyword #array
+puts text.num_keyword
+puts text.keywords[0].urls.random_1_pic #string
 ```
 > "狗"
 > "朋友"

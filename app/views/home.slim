@@ -6,8 +6,8 @@
         .text-right Paste article here:
       .col-md-8.col-sm-6
         input { 
-          type='text' name='text'
-          id='github_url_input' class="form-control"
+          type='text' name='article'
+          id='article_input' class="form-control"
           placeholder="狗是最好的朋友"
         }
       .col-md-2.col-sm-3
@@ -17,3 +17,18 @@
         } Analize
     .row
       .col-md-12.blank-row
+    - if texts.any?
+      table class="table table-hover" id="projects_table"
+        thead
+          tr
+            th Article
+            th Keywords
+        tbody
+          - texts.each.with_index do |each_text, index|
+            tr class="table-row project_row" data-href="text/#{each_text.text}" id="project[#{index}].row"
+              td id='td_article'
+                span class="project_table_owner" id="project[#{index}].owner"
+                  = each_text.text
+              td id='td_keywords'
+                span class="project_table_member" id="project[#{index}].contributors"
+                  = each_text.keywords.map(&:keyword).join(', ')
