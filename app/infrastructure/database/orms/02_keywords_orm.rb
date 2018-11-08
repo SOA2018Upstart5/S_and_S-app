@@ -14,7 +14,7 @@ module SeoAssistant
 
 
       def self.find_or_create(keyword_info)
-        first(keyword: keyword_info[:keyword]) || create(keyword_info)
+        first(word: keyword_info[:word]) || create(keyword_info)
       end
     end
   end

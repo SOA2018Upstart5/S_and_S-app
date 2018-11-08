@@ -30,10 +30,12 @@ $ bundle install
 
 **Create databes**
 ```
+$ rake db:wipe
 $ rake db:migrate
 or
 $ RACK_ENV=test rake db:migrate
 ```
+
 **Google path setting**
 ```
 $ export GOOGLE_APPLICATION_CREDENTIALS="config/google_credential.json"

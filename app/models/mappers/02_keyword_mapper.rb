@@ -23,7 +23,7 @@ module SeoAssistant
           @google_config = google_config
           @unsplash_key = unsplash_access_key
           @word = each_result.name
-          @type = each_result.type
+          @type = each_result.type.to_s
           @importance = each_result.salience
           @translate_class = SeoAssistant::OutAPI::Translate
           @eng_word = @translate_class.new(@google_config, @word).process

@@ -9,17 +9,19 @@ module SeoAssistant
         end
 
         def self.find_text(text)
-          rebuild_entity Database::TextOrm.find(text: text)
+          db_text = Database::TextOrm.find(text: text)
+          rebuild_entity(db_text)
         end
 
         def self.find_id(id)
-          rebuild_entity Database::TextOrm.first(id: id)
+          db_record = Database::TextOrm.first(id: id)
+          rebuild_entity(db_record)
         end
 
         def self.create(entity)
-          raise 'Text already exists' if find(entity)
-
-          rebuild_entity PersistText.new(entity).call
+          #raise 'Text already exists' if find(entity)
+          db_text = PersistText.new(entity).call
+          rebuild_entity(db_text)
         end
 
         private
@@ -29,6 +31,7 @@ module SeoAssistant
 
           Entity::Text.new(
             db_record.to_hash.merge(
+              text: db_record.text,
               keywords: Keywords.rebuild_many(db_record.keywords)
             )
           )
