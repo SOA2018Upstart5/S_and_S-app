@@ -1,0 +1,19 @@
+
+.container
+  form role="form" action="/answer" method='POST' id='show-project-form'
+    .row.vertical-align.query-bar
+      .col-md-2.col-sm-3
+        .text-right Paste article here:
+      .col-md-8.col-sm-6
+        input { 
+          type='text' name='text'
+          id='github_url_input' class="form-control"
+          placeholder="狗是最好的朋友"
+        }
+      .col-md-2.col-sm-3
+        button { 
+          type='submit' id='repo-form-submit' class='submit' 
+          value='submit' class="btn btn-success" 
+        } Analize
+    .row
+      .col-md-12.blank-row

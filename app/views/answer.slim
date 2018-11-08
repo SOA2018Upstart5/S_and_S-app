@@ -1,0 +1,23 @@
+.container
+  .row
+    h2
+      span.answer.num_keyword
+        = "There're totally #{answer.num_keyword} keywords. "
+  .container
+    P Here is the result:
+    table class="table table-hover"
+      thread
+        tr 
+          th Owner
+          th Github URL
+          th Contributors
+      tbody
+        - answer.keywords.each do |each_keyword|
+          tr
+            td 
+              span.answer.keywords.keyword
+                a href=each_keyword.urls.random_1_pic #{each_keyword.keyword}
+            td 
+              span.answer.keywords.type #{each_keyword.type}
+            td 
+              span.answer.keywords.importance #{each_keyword.importance}
