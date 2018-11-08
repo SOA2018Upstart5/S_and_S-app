@@ -6,10 +6,10 @@ Sequel.migration do
   change do
     create_table(:keywords) do
       primary_key :id
-      foreign_key :script_id, :scripts
+      foreign_key :text_id, :texts
 
-      String      :keyword
-      String      :eng_keyword
+      String      :word
+      String      :eng_word
       String      :type
       Float       :importance
       String      :image_url

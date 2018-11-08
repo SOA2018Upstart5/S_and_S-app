@@ -4,7 +4,7 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:scripts) do
+    create_table(:texts) do
       primary_key :id
 
       String      :text

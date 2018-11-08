@@ -3,7 +3,7 @@ require_relative '03_url_mapper.rb'
 
 module SeoAssistant
   module OutAPI
-    class ScriptMapper
+    class TextMapper
       def initialize(google_config, unsplash_access_key)
         @google_config = google_config
         @unsplash_key = unsplash_access_key
@@ -29,25 +29,15 @@ module SeoAssistant
         end
 
         def build_entity
-          SeoAssistant::Entity::Script.new(
+          SeoAssistant::Entity::Text.new(
             id: nil,
             text: @text,
             keywords: keywords,
-            each_keyword: each_keyword,
-            num_keyword: num_keyword
           )
         end
 
         def keywords()
           KeywordMapper.new(@google_config, @unsplash_key).load_several(@results)
-        end
-
-        def each_keyword()
-          @results.map(&:name)
-        end
-
-        def num_keyword()
-          @results.map(&:name).length
         end
       end
     end

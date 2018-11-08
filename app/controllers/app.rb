@@ -16,7 +16,7 @@ module SeoAssistant
 
       # GET /
       routing.root do
-        scripts = Repository::For.klass(Entity::Script).all
+        scripts = Repository::For.klass(Entity::Text).all
         view 'home', locals: { scripts: scripts }
       end
 
@@ -28,7 +28,7 @@ module SeoAssistant
             routing.halt 400 if (text.empty?)
 
             # Get script from API
-            script = OutAPI::ScriptMapper
+            script = OutAPI::TextMapper
               .new(JSON.parse(App.config.GOOGLE_CREDS), App.config.UNSPLASH_ACCESS_KEY)
               .process(text)
 
@@ -46,7 +46,7 @@ module SeoAssistant
             text_unescaped = URI.unescape(text_encoded).to_s
             #answer = SeoAssistant::OutAPI::ScriptMapper.new(App.config.GOOGLE_CREDS, App.config.UNSPLASH_ACCESS_KEY).process(text_unescaped)
 
-            script = Repository::For.klass(Entity::Script)
+            script = Repository::For.klass(Entity::Text)
             .find_text(text_unescaped)
 
             view 'answer', locals: { answer: script }

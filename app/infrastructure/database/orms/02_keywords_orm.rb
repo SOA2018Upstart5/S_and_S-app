@@ -6,9 +6,9 @@ module SeoAssistant
   module Database
     # Object Relational Mapper for Project Entities
     class KeywordOrm < Sequel::Model(:keywords)
-      many_to_one :script,
-                  class: :'SeoAssistant::Database::ScriptOrm',
-                  key: :script_id
+      many_to_one :text,
+                  class: :'SeoAssistant::Database::TextOrm',
+                  key: :text_id
 
       plugin :timestamps, update_on_create: true
 

@@ -221,6 +221,7 @@ DEPENDENCIES
   google-cloud-translate
   hirb
   http (~> 3.0)
+  json
   minitest (~> 5.11)
   minitest-rg (~> 5.2)
   pry

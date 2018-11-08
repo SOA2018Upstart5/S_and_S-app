@@ -22,18 +22,18 @@ module SeoAssistant
         def initialize(google_config, unsplash_access_key, each_result)
           @google_config = google_config
           @unsplash_key = unsplash_access_key
-          @keyword = each_result.name
+          @word = each_result.name
           @type = each_result.type
           @importance = each_result.salience
           @translate_class = SeoAssistant::OutAPI::Translate
-          @eng_keyword = @translate_class.new(@google_config, @keyword).process
+          @eng_word = @translate_class.new(@google_config, @keyword).process
         end
 
         def build_entity()
           SeoAssistant::Entity::Keyword.new(
             id: nil,
-            keyword: @keyword,
-            eng_keyword: @eng_keyword,
+            keyword: @word,
+            eng_keyword: @eng_word,
             type: @type,
             importance: @importance,
             url: url
@@ -41,7 +41,7 @@ module SeoAssistant
         end
 
         def url()
-          UrlMapper.new(@unsplash_key).process(@eng_keyword)
+          UrlMapper.new(@unsplash_key).process(@eng_word)
         end
       end
     end
