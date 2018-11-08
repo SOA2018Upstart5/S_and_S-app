@@ -16,40 +16,40 @@ module SeoAssistant
 
       # GET /
       routing.root do
-        scripts = Repository::For.klass(Entity::Text).all
-        view 'home', locals: { scripts: scripts }
+        texts = Repository::For.klass(Entity::Text).all
+        view 'home', locals: { texts: texts }
       end
 
       routing.on 'answer' do
         routing.is do
           # GET /answer/
           routing.post do
-            text = routing.params['text'].to_s
-            routing.halt 400 if (text.empty?)
+            article = routing.params['article'].to_s
+            routing.halt 400 if (article.empty?)
 
             # Get script from API
-            script = OutAPI::TextMapper
+            text = OutAPI::ScriptMapper
               .new(JSON.parse(App.config.GOOGLE_CREDS), App.config.UNSPLASH_ACCESS_KEY)
-              .process(text)
+              .process(article)
 
             # Add script to database
-            Repository::For.entity(script).create(script)
+            Repository::For.entity(text).create(text)
 
-            routing.redirect "answer/#{text}"
+            routing.redirect "answer/#{article}"
           end
         end
 
-        routing.on String do |text|
+        routing.on String do |article|
           # GET /answer/text
           routing.get do
-            text_encoded = text.encode('UTF-8', invalid: :replace, undef: :replace)
-            text_unescaped = URI.unescape(text_encoded).to_s
+            article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
+            article_unescaped = URI.unescape(article_encoded).to_s
             #answer = SeoAssistant::OutAPI::ScriptMapper.new(App.config.GOOGLE_CREDS, App.config.UNSPLASH_ACCESS_KEY).process(text_unescaped)
 
-            script = Repository::For.klass(Entity::Text)
-            .find_text(text_unescaped)
+            text = Repository::For.klass(Entity::Text)
+            .find_text(article_unescaped)
 
-            view 'answer', locals: { answer: script }
+            view 'answer', locals: { answer: text }
           end
         end
       end

@@ -1,19 +1,21 @@
 .container
   .row
     h2
-      span.answer.num_keyword
-        = "There're totally #{answer.num_keyword} keywords. "
+      span.answer
+        = "There're totally #{answer.keywords.map(&:keyword).length} keywords. "
   .container
     P Here is the result:
     table class="table table-hover"
       thread
         tr 
-          th Owner
-          th Github URL
+          th Article
+          th keyword
           th Contributors
       tbody
         - answer.keywords.each do |each_keyword|
           tr
+            td
+              span.answer.text #{answer.text}
             td 
               span.answer.keywords.keyword
                 a href=each_keyword.urls.random_1_pic #{each_keyword.keyword}
