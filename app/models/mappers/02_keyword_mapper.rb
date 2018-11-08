@@ -26,14 +26,14 @@ module SeoAssistant
           @type = each_result.type
           @importance = each_result.salience
           @translate_class = SeoAssistant::OutAPI::Translate
-          @eng_word = @translate_class.new(@google_config, @keyword).process
+          @eng_word = @translate_class.new(@google_config, @word).process
         end
 
         def build_entity()
           SeoAssistant::Entity::Keyword.new(
             id: nil,
-            keyword: @word,
-            eng_keyword: @eng_word,
+            word: @word,
+            eng_word: @eng_word,
             type: @type,
             importance: @importance,
             url: url

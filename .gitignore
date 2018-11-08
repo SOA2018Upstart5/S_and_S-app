@@ -4,3 +4,4 @@ spec/fixtures/
 coverage/
 *.db
 .pryrc
+.bundle/

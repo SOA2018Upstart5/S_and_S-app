@@ -54,6 +54,9 @@ group :development, :test do
   gem 'rerun', '~> 0.13'
 end
 
+group :production do
+  gem 'pg'
+end
 
 #########Other############
 
