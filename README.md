@@ -42,28 +42,25 @@ $ export GOOGLE_APPLICATION_CREDENTIALS="config/google_credential.json"
 
 **Search a picture with keyword**
 ```ruby
-require 'yaml'
-CONFIG = YAML.safe_load(File.read('../../../config/secrets.yml'))
-UNSPLASH_ACCESS_KEY = CONFIG['UNSPLASH_ACCESS_KEY']
-search_pic = SeoAssistant::OutAPI::Unsplash.new(UNSPLASH_ACCESS_KEY, "dog")
+search_pic = SeoAssistant::OutAPI::Unsplash
+  .new(SeoAssistant::App.config.UNSPLASH_ACCESS_KEY), "dog")
 puts search_pic.process['results'][0]['urls']['raw'] #string
 ```
 > <dog_picture_first_url>
 
 **Translate to English**
 ```ruby
-include SeoAssistant::OutAPI
-translate_word = Translate.new("狗,貓,公車")
+translate_word = SeoAssistant::OutAPI::Translate.new("狗,貓,公車")
 puts translate_word.process #string
 ```
 > "Dog, cat, bus"
 
 **Analyze text**
 ```ruby
-include SeoAssistant::OutAPI
 text = "Google, headquartered in Mountain View, unveiled the new Android phone at the Consumer Electronic Show./
             Sundar Pichai said in his keynote that users love their new Android phones."
-analyze_text = Analyze.new(text)
+analyze_text = SeoAssistant::OutAPI::Analyze
+  .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS, text)
 puts analyze_text.process.keyword #array
 puts analyze_text.process.type #array
 puts analyze_text.process.importance #array
@@ -77,11 +74,9 @@ puts analyze_text.process.importance #array
 
 **Overall usage**
 ```ruby
-script = OutAPI::ScriptMapper
-              .new(JSON.parse(App.config.GOOGLE_CREDS), App.config.UNSPLASH_ACCESS_KEY)
-              .process(text)
-
-script = SeoAssistant::OutAPI::ScriptMapper.new(App.config.GOOGLE_CREDS, App.config.UNSPLASH_ACCESS_KEY).process("狗是最好的朋友")
+script = SeoAssistant::OutAPI::ScriptMapper
+  .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS), SeoAssistant::App.config.UNSPLASH_ACCESS_KEY)
+  .process("狗是最好的朋友")
 puts script.each_keyword #array
 puts script.num_keyword
 puts script.keywords[0].urls.random_1_pic #string
