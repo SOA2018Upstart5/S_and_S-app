@@ -1,4 +1,4 @@
-require_relative '03_url_mapper.rb'
+#require_relative '03_url_mapper.rb'
 
 module SeoAssistant
   module OutAPI
@@ -36,12 +36,16 @@ module SeoAssistant
             eng_word: @eng_word,
             type: @type,
             importance: @importance,
-            url: url
+            url: url()
           )
         end
 
         def url()
-          UrlMapper.new(@unsplash_key).process(@eng_word)
+          #UrlMapper.new(@unsplash_key).process(@eng_word)
+          process = SeoAssistant::OutAPI::Unsplash.new(@unsplash_key, @eng_word).process
+          results = process['results']
+          num = rand(results.length)
+          results[num]['urls']['raw'].to_s
         end
       end
     end

@@ -5,7 +5,7 @@ module SeoAssistant
       # Repository for Project Entities
       class Texts
         def self.all
-          Database::TextOrm.all.map { |db_script| rebuild_entity(db_script) }
+          Database::TextOrm.all.map { |db_text| rebuild_entity(db_text) }
         end
 
         def self.find_text(text)

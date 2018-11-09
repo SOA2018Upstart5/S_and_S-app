@@ -26,8 +26,8 @@ module SeoAssistant
         end
 
         def self.rebuild_many(db_records)
-          db_records.map do |db_word|
-            Keyword.rebuild_entity(db_word)
+          db_records.map do |db_keyword|
+            Keywords.rebuild_entity(db_keyword)
           end
         end
 

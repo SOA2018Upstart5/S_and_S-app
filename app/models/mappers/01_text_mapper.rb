@@ -1,5 +1,5 @@
 require_relative '02_keyword_mapper.rb'
-require_relative '03_url_mapper.rb'
+#require_relative '03_url_mapper.rb'
 
 module SeoAssistant
   module OutAPI

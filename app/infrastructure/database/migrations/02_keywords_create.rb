@@ -12,7 +12,7 @@ Sequel.migration do
       String      :eng_word
       String      :type
       Float       :importance
-      String      :image_url
+      String      :url
 
       DateTime :created_at
       DateTime :updated_at

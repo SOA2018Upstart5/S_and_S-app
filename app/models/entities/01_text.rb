@@ -9,8 +9,9 @@ module SeoAssistant
       attribute :text, Strict::String
       attribute :keywords, Strict::Array.of(Keyword)
 
+      #reject variabel which would  merge with other.
       def to_attr_hash
-        to_hash.reject { |key, _| [:id, :text].include? key }
+        to_hash.reject { |key, _| [:id, :keywords].include? key }
       end
     end
   end

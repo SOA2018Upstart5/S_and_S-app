@@ -1,4 +1,4 @@
-require_relative '03_url.rb'
+#require_relative '03_url.rb'
 
 module SeoAssistant
   module Entity
@@ -10,10 +10,10 @@ module SeoAssistant
       attribute :eng_word, Strict::String
       attribute :type, Strict::String
       attribute :importance, Strict::Float
-      attribute :url, Url
+      attribute :url, Strict::String
 
       def to_attr_hash
-        to_hash.reject { |key, _| [:id, :word, :eng_word, :type, :importance, :url].include? key }
+        to_hash.reject { |key, _| [:id].include? key }
       end
     end
   end

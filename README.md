@@ -79,11 +79,8 @@ puts analyze_text.process.importance #array
 text = SeoAssistant::OutAPI::TextMapper
   .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS), SeoAssistant::App.config.UNSPLASH_ACCESS_KEY)
   .process("狗是最好的朋友")
-puts text.each_keyword #array
-puts text.num_keyword
-puts text.keywords[0].urls.random_1_pic #string
+puts text.text #array
+puts text.keywords[0].url.random_1_pic #string
 ```
-> "狗"
-> "朋友"
-> 2
+> "狗是最好的朋友"
 > <dog_picture_random_url>

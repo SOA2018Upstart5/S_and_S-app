@@ -15,6 +15,8 @@ module SeoAssistant
       routing.assets # load CSS
 
       # GET /
+      #make sure database have no nil data
+      #or it will not get into home page.
       routing.root do
         texts = Repository::For.klass(Entity::Text).all
         view 'home', locals: { texts: texts }
@@ -27,12 +29,12 @@ module SeoAssistant
             article = routing.params['article'].to_s
             routing.halt 400 if (article.empty?)
 
-            # Get script from API
+            # Get text from API (SeoAssistant::Entity::Text)
             text = OutAPI::TextMapper
               .new(JSON.parse(App.config.GOOGLE_CREDS), App.config.UNSPLASH_ACCESS_KEY)
               .process(article)
 
-            # Add script to database
+            # Add script to database = SeoAssistant::Repository::Texts.create(text)
             Repository::For.entity(text).create(text)
 
             routing.redirect "answer/#{article}"
