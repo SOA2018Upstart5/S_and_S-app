@@ -25,14 +25,14 @@ module SeoAssistant
           )
         end
 
-        def self.rebuild_many(db_records)
-          db_records.map do |db_keyword|
+        def self.rebuild_many(db_keywords)
+          db_keywords.map do |db_keyword|
             Keywords.rebuild_entity(db_keyword)
           end
         end
 
-        def self.db_find_or_create(entity)
-          Database::KeywordOrm.find_or_create(entity.to_attr_hash)
+        def self.db_find_or_create(keyword_entity)
+          Database::KeywordOrm.find_or_create(keyword_entity.to_attr_hash)
         end
       end
     end

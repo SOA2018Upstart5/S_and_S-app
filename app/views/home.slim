@@ -31,4 +31,4 @@
                   = each_text.text
               td id='td_keywords'
                 span class="project_table_member" id="project[#{index}].contributors"
-                  = each_text.keywords.map(&:keyword).join(', ')
+                  = each_text.keywords.map(&:word).join(', ')

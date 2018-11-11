@@ -47,6 +47,8 @@ module SeoAssistant
             article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
             article_unescaped = URI.unescape(article_encoded).to_s
 
+            puts article_unescaped
+
             text = Repository::For.klass(Entity::Text)
             .find_text(article_unescaped)
 
