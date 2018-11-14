@@ -97,8 +97,17 @@ module SeoAssistant
             article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
             article_unescaped = URI.unescape(article_encoded).to_s
 
-            text = Repository::For.klass(Entity::Text)
-            .find_text(article_unescaped)
+            begin
+              text = Repository::For.klass(Entity::Text).find_text(article_unescaped)
+
+              if text.nil?
+                flash[:error] = 'Article not found'
+                routing.redirect '/'
+              end
+            rescue StandardError
+              flash[:error] = 'Having trouble accessing the database'
+              routing.redirect '/'
+            end
 
             view 'answer', locals: { answer: text }
           end
