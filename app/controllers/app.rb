@@ -1,15 +1,21 @@
 #finished but need confirmed
 require 'roda'
 require 'slim'
+require 'slim/include'
 require 'uri'
 require 'json'
 
 module SeoAssistant
   # Web App
   class App < Roda
-    plugin :render, engine: 'slim', views: 'app/views'
-    plugin :assets, css: 'style.css', path: 'app/views/assets'
     plugin :halt
+    plugin :flash
+    plugin :all_verbs
+    plugin :render, engine: 'slim', views: 'app/presentation/views'
+    plugin :assets, path: 'app/presentation/assets', css: 'style.css'
+    plugin :halt
+
+    use Rack::MethodOverride
 
     route do |routing|
       routing.assets # load CSS
@@ -27,7 +33,11 @@ module SeoAssistant
           # GET /answer/
           routing.post do
             article = routing.params['article'].to_s
-            routing.halt 400 if (article.empty?)
+            if (article.empty?)
+              flash[:error] = 'Empty input'
+              response.status = 400
+              routing.redirect '/'
+            end
 
             # Get text from API (SeoAssistant::Entity::Text)
             text = OutAPI::TextMapper
@@ -47,10 +57,9 @@ module SeoAssistant
             article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
             article_unescaped = URI.unescape(article_encoded).to_s
 
-            puts article_unescaped
-
             text = Repository::For.klass(Entity::Text)
             .find_text(article_unescaped)
+            puts text
 
             view 'answer', locals: { answer: text }
           end

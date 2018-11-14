@@ -24,11 +24,11 @@
             th Article
             th Keywords
         tbody
-          - texts.each.with_index do |each_text, index|
-            tr class="table-row project_row" data-href="text/#{each_text.text}" id="project[#{index}].row"
+          - texts.each do |each_text|
+            tr class="table-row project_row" data-href="answer/#{each_text.text}" 
               td id='td_article'
-                span class="project_table_owner" id="project[#{index}].owner"
+                span class="project_table_owner" 
                   = each_text.text
               td id='td_keywords'
-                span class="project_table_member" id="project[#{index}].contributors"
+                span class="project_table_member" 
                   = each_text.keywords.map(&:word).join(', ')
