@@ -9,7 +9,7 @@ module SeoAssistant
         end
 
         def self.find_text(text)
-          db_text = Database::TextOrm.first(text: text)
+          db_text = Database::TextOrm.find(text: text)
           #db_text = Database::TextOrm
           #  .left_join(:keywords, text_id: :id)
           #  .where(text: text)

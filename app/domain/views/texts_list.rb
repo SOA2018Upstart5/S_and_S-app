@@ -11,7 +11,7 @@ module Views
   
       def each
         @texts.each do |tx|
-          yield proj
+          yield tx
         end
       end
   
