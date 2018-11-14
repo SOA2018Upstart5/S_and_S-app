@@ -11,6 +11,8 @@ module SeoAssistant
                   key: :text_id
 
       plugin :timestamps, update_on_create: true
+
+      
     end
   end
 end
