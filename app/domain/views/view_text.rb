@@ -21,6 +21,10 @@ module Views
       def text
         @text.text
       end
+
+      def each_keyword
+        @text.keywords.map(&:word).join(', ')
+      end
     end
   end
   
