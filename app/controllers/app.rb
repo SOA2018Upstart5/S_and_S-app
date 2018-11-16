@@ -52,7 +52,7 @@ module SeoAssistant
               routing.redirect '/'
             end
 
-            # Add text to database
+            # check if text exist in database
             new_text = Repository::For.klass(Entity::Text).find_text(article)
 
             unless new_text

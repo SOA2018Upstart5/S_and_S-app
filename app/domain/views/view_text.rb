@@ -10,15 +10,15 @@ module Views
         @text
       end
   
-      def praise_link
-        "/answer/#{content}"
+      def text_link
+        "/answer/#{text_content}"
       end
   
       def index_str
         "text[#{@index}]"
       end
   
-      def text
+      def text_content
         @text.text
       end
 
