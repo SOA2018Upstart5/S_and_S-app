@@ -17,6 +17,12 @@ module SeoAssistant
           rebuild_entity(db_text)
         end
 
+        def self.find_texts(texts)
+          texts.map do |text|
+            find_text(text)
+          end
+        end
+
         def self.find_id(id)
           db_record = Database::TextOrm.first(id: id)
           rebuild_entity(db_record)

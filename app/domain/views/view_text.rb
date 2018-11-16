@@ -18,7 +18,7 @@ module Views
         "text[#{@index}]"
       end
   
-      def content
+      def text
         @text.text
       end
     end

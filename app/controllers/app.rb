@@ -12,7 +12,7 @@ module SeoAssistant
     plugin :flash
     plugin :all_verbs
     plugin :render, engine: 'slim', views: 'app/presentation/views'
-    plugin :assets, path: 'app/presentation/assets', css: 'style.css'
+    plugin :assets, path: 'app/presentation/assets', css: 'style.css', js: 'table_row.js'
 
     use Rack::MethodOverride
 
@@ -24,22 +24,23 @@ module SeoAssistant
       #or it will not get into home page.
       routing.root do
         # Get cookie viewer's previously seen projects
-        #session[:watching] ||= []
+        session[:watching] ||= []
+        puts session[:watching]
+        puts "ok"
 
         # Load previously viewed texts
-        #texts = Repository::For.klass(Entity::Text).find_text(session[:watching])
+        texts = Repository::For.klass(Entity::Text).find_texts(session[:watching])
 
-        #session[:watching] = texts.map(&:text)
+        session[:watching] = texts.map(&:text)
+        puts session[:watching]
 
-        #if texts.none?
-        #  flash.now[:notice] = 'Add an article to get started'
-        #end
+        if texts.none?
+          flash.now[:notice] = 'Add an article to get started'
+        end
 
-        #viewable_texts = Views::TextsList.new(texts)
-        #view 'home', locals: { texts: viewable_texts }
+        viewable_texts = Views::TextsList.new(texts)
+        view 'home', locals: { texts: viewable_texts }
 
-        texts = Repository::For.klass(Entity::Text).all
-        view 'home', locals: { texts: texts }
       end
 
       routing.on 'answer' do

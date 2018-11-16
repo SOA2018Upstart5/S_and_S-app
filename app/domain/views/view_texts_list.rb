@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'text'
+require_relative 'view_text'
 
 module Views
     # View for a a list of project entities
