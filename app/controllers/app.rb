@@ -12,7 +12,7 @@ module SeoAssistant
     plugin :flash
     plugin :all_verbs
     plugin :render, engine: 'slim', views: 'app/presentation/views'
-    plugin :assets, path: 'app/presentation/assets', css: 'style.css', js: 'table_row.js'
+    plugin :assets, path: 'app/presentation/assets', css: 'style.css', js: 'operation.js'
 
     use Rack::MethodOverride
 
@@ -95,8 +95,10 @@ module SeoAssistant
           routing.get do
             article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
             article_unescaped = URI.unescape(article_encoded).to_s
+            
 
             begin
+              # fin text from database first
               text = Repository::For.klass(Entity::Text).find_text(article_unescaped)
 
               if text.nil?
@@ -107,8 +109,8 @@ module SeoAssistant
               flash[:error] = 'Having trouble accessing the database'
               routing.redirect '/'
             end
-
-            view 'answer', locals: { answer: text }
+            viewable_text = Views::Text.new(text)
+            view 'answer', locals: { text: viewable_text }
           end
         end
       end

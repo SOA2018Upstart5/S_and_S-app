@@ -5,11 +5,11 @@
       .col-md-2.col-sm-3
         .text-right Paste article here:
       .col-md-8.col-sm-6
-        input { 
+        textarea { 
           type='text' name='article'
           id='article_input' class="form-control"
           placeholder="狗是最好的朋友"
-          height="100"
+          height="200"
         }
         //"form-control" is from bootsrtap class
       .col-md-2.col-sm-3
@@ -30,13 +30,12 @@
           - texts.each do |each_text|
             tr class="table-row project_row" data-href=each_text.text_link
               td id='td_delete'
-                form role='form' method='post' action=each_text.text_link
-                  input type='hidden' name='_method' value='delete'
-                  button type="submit" class="btn btn-sm btn-link" 
-                    i class="fas fa-trash-alt"
               td id='td_article'
                 span class="project_table_owner" 
                   = each_text.text_content
               td id='td_keywords'
                 span class="project_table_member" 
                   = each_text.each_keyword
+
+// texts (array) => each, any?
+// each_text => entity, text_link, index_str, text_content, each_keyword
