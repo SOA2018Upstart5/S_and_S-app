@@ -41,11 +41,15 @@ module SeoAssistant
         end
 
         def url()
-          #UrlMapper.new(@unsplash_key).process(@eng_word)
           process = SeoAssistant::OutAPI::Unsplash.new(@unsplash_key, @eng_word).process
           results = process['results']
-          num = rand(results.length)
-          results[num]['urls']['raw'].to_s
+          
+          show_num = results.length
+          url_arr = []
+          results.map do |result|
+            url_arr.push(result['urls']['raw'].to_s)
+          end
+          url_arr.join('\n')
         end
       end
     end

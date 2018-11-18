@@ -80,7 +80,18 @@ text = SeoAssistant::OutAPI::TextMapper
   .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS), SeoAssistant::App.config.UNSPLASH_ACCESS_KEY)
   .process("狗是最好的朋友")
 puts text.text #array
-puts text.keywords[0].url.random_1_pic #string
+puts text.keywords[0].url #string of many url link join with '\n'
 ```
 > "狗是最好的朋友"
 > <dog_picture_random_url>
+
+```ruby
+many_url = text.keywords[0].url.split('\n')
+
+many_url.map do |url|
+    a=gets.chomp.to_s
+    if a == "ok"
+        puts url
+    end
+end
+```
