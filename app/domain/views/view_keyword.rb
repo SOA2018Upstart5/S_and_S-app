@@ -10,6 +10,10 @@ module Views
       @keyword.word
     end
 
+    def keyword_eng_word()
+      @keyword.eng_word
+    end
+
     def keyword_type()
       @keyword.type
     end
