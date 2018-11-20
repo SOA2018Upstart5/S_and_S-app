@@ -23,6 +23,10 @@ module Views
       many_url[num % (many_url.length)]
     end
 
+    def keyword_url_num()
+      @keyword.url.split('\n').length
+    end
+
     def keyword_all_url()
       @keyword.url
     end

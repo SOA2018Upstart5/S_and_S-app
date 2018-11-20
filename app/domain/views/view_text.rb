@@ -8,8 +8,8 @@ module Views
     end
 
     def each
-      @keywords.each do |kw|
-        yield kw
+      @keywords.each.with_index do |kw, index|
+        yield kw, index
       end
     end
 

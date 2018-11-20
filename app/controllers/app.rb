@@ -85,7 +85,9 @@ module SeoAssistant
         routing.on String do |article|
           # DELETE /project/{owner_name}/{project_name}
           routing.delete do
-            content = "#{article}"
+            article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
+            article_unescaped = URI.unescape(article_encoded).to_s
+            content = "#{article_unescaped}"
             session[:watching].delete(content)
 
             routing.redirect '/'
@@ -110,7 +112,7 @@ module SeoAssistant
               routing.redirect '/'
             end
             viewable_text = Views::Text.new(text)
-            view 'answer', locals: { text: viewable_text }
+            view 'test', locals: { text: viewable_text }
           end
         end
       end
