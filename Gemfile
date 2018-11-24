@@ -10,9 +10,14 @@ gem 'slim', '~> 3.0'
 gem 'econfig', '~> 2.1'
 gem 'json'
 
-#Entity gems
+# Entity gems
 gem 'dry-struct', '~> 0.5'
 gem 'dry-types', '~> 0.5'
+
+# Controllers and services
+gem 'dry-monads'
+gem 'dry-transaction'
+gem 'dry-validation'
 
 #  Networking
 gem'http',  '~>  3.0'

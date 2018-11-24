@@ -26,7 +26,6 @@ module SeoAssistant
         # Get cookie viewer's previously seen projects
         session[:watching] ||= []
 
-
         # Load previously viewed texts
         texts = Repository::For.klass(Entity::Text).find_texts(session[:watching])
 
@@ -45,6 +44,8 @@ module SeoAssistant
         routing.is do
           # GET /answer/
           routing.post do
+
+            # Get the input of article and check its form 
             article = routing.params['article'].to_s
             if (article.empty?)
               flash[:error] = 'Empty input'
@@ -54,7 +55,9 @@ module SeoAssistant
 
             # check if text exist in database
             new_text = Repository::For.klass(Entity::Text).find_text(article)
-
+            # if no, 
+            # 1. make an new entity
+            # 2. store into database
             unless new_text
               begin
                 # Get text from API (SeoAssistant::Entity::Text)
