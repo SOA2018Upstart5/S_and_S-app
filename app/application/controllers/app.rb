@@ -5,6 +5,8 @@ require 'slim/include'
 require 'uri'
 require 'json'
 
+#make sure database have no nil data or it will not get into home page.
+
 module SeoAssistant
   # Web App
   class App < Roda
@@ -19,65 +21,47 @@ module SeoAssistant
     route do |routing|
       routing.assets # load CSS
 
-      # GET /
-      #make sure database have no nil data
-      #or it will not get into home page.
       routing.root do
         # Get cookie viewer's previously seen projects
         session[:watching] ||= []
 
         # Load previously viewed texts
-        texts = Repository::For.klass(Entity::Text).find_texts(session[:watching])
+        result = Service::ListTexts.new.call(session[:watching])
 
-        session[:watching] = texts.map(&:text)
+        if result.failure?
+          flash[:error] = result.failure
+          view 'home', locals: { texts: [] }
+        end
 
+        texts = result.value!
         if texts.none?
           flash.now[:notice] = 'Add an article to get started'
         end
+
+        session[:watching] = texts.map(&:text)
 
         viewable_texts = Views::TextsList.new(texts)
         view 'home', locals: { texts: viewable_texts }
 
       end
 
+      #######
+
       routing.on 'answer' do
         routing.is do
           # GET /answer/
           routing.post do
+            # Get the input of article and check its form
+            article_request = Forms::ArticleRequest.call(routing.params)
+            # find if article exist and 
+            text_made = Service::AddText.new.call(article_request)
 
-            # Get the input of article and check its form 
-            article = routing.params['article'].to_s
-            if (article.empty?)
-              flash[:error] = 'Empty input'
-              response.status = 400
+            if text_made.failure?
+              flash[:error] = text_made.failure
               routing.redirect '/'
             end
 
-            # check if text exist in database
-            new_text = Repository::For.klass(Entity::Text).find_text(article)
-            # if no, 
-            # 1. make an new entity
-            # 2. store into database
-            unless new_text
-              begin
-                # Get text from API (SeoAssistant::Entity::Text)
-                new_text = OutAPI::TextMapper
-                  .new(JSON.parse(App.config.GOOGLE_CREDS), App.config.UNSPLASH_ACCESS_KEY)
-                  .process(article)
-              rescue StandardError => error
-                flash[:error] = 'Could not analysize the article'
-                routing.redirect '/'
-              end
-
-              begin
-                # Add script to database = SeoAssistant::Repository::Texts.create(text)
-                Repository::For.entity(new_text).create(new_text)
-              rescue StandardError => error
-                puts error.backtrace.join("\n")
-                flash[:error] = 'Having trouble accessing the database'
-              end
-            end
-
+            new_text = text_made.value!
             # Add new text to watched set in cookies
             session[:watching].insert(0, new_text.text).uniq!
             
@@ -88,33 +72,28 @@ module SeoAssistant
         routing.on String do |article|
           # DELETE /project/{owner_name}/{project_name}
           routing.delete do
+            # decode the article
             article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
             article_unescaped = URI.unescape(article_encoded).to_s
-            content = "#{article_unescaped}"
-            session[:watching].delete(content)
+
+            canceled_article = "#{article_unescaped}"
+            session[:watching].delete(canceled_article)
 
             routing.redirect '/'
           end
 
           # GET /answer/text
           routing.get do
-            article_encoded = article.encode('UTF-8', invalid: :replace, undef: :replace)
-            article_unescaped = URI.unescape(article_encoded).to_s
-            
+            show_text = Service::ShowText.new.call(article)
 
-            begin
-              # fin text from database first
-              text = Repository::For.klass(Entity::Text).find_text(article_unescaped)
-
-              if text.nil?
-                flash[:error] = 'Article not found'
-                routing.redirect '/'
-              end
-            rescue StandardError
-              flash[:error] = 'Having trouble accessing the database'
+            if show_text.failure?
+              flash[:error] = show_text.failure
               routing.redirect '/'
             end
-            viewable_text = Views::Text.new(text)
+
+            text_info = show_text.value!
+            
+            viewable_text = Views::Text.new(text_info)
             view 'test', locals: { text: viewable_text }
           end
         end

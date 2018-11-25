@@ -5,7 +5,8 @@ require 'dry-validation'
 module SeoAssistant
   module Forms
     ArticleRequest = Dry::Validation.Params do
-      required(:article_check).filled
+      # :article should be the same as front_end's input name 
+      required(:article).filled(:str?)
 
       configure do
         config.messages_file = File.join(__dir__, 'errors/article_request.yml')
