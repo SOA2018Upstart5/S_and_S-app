@@ -91,7 +91,7 @@ module SeoAssistant
             end
             
             viewable_text = Views::Text.new(text_info)
-            view 'test', locals: { text: viewable_text }
+            view 'result', locals: { text: viewable_text }
           end
         end
       end
