@@ -27,13 +27,13 @@ module SeoAssistant
 
         # Load previously viewed texts
         result = Service::ListTexts.new.call(session[:watching])
+        texts = result.value!
 
         if result.failure?
           flash[:error] = result.failure
           view 'home', locals: { texts: [] }
         end
 
-        texts = result.value!
         if texts.none?
           flash.now[:notice] = 'Add an article to get started'
         end
@@ -42,10 +42,7 @@ module SeoAssistant
 
         viewable_texts = Views::TextsList.new(texts)
         view 'home', locals: { texts: viewable_texts }
-
       end
-
-      #######
 
       routing.on 'answer' do
         routing.is do
@@ -55,13 +52,13 @@ module SeoAssistant
             article_request = Forms::ArticleRequest.call(routing.params)
             # find if article exist and 
             text_made = Service::AddText.new.call(article_request)
+            new_text = text_made.value!
 
             if text_made.failure?
               flash[:error] = text_made.failure
               routing.redirect '/'
             end
 
-            new_text = text_made.value!
             # Add new text to watched set in cookies
             session[:watching].insert(0, new_text.text).uniq!
             
@@ -84,14 +81,14 @@ module SeoAssistant
 
           # GET /answer/text
           routing.get do
+            # find the text into database
             show_text = Service::ShowText.new.call(article)
+            text_info = show_text.value!
 
             if show_text.failure?
               flash[:error] = show_text.failure
               routing.redirect '/'
             end
-
-            text_info = show_text.value!
             
             viewable_text = Views::Text.new(text_info)
             view 'test', locals: { text: viewable_text }
