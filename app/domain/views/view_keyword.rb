@@ -19,7 +19,8 @@ module Views
     end
 
     def keyword_importance()
-      @keyword.importance
+      num = (@keyword.importance * 100).to_i
+      "#{num} %"
     end
 
     def keyword_url(num)

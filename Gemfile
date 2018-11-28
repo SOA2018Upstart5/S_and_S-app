@@ -10,9 +10,14 @@ gem 'slim', '~> 3.0'
 gem 'econfig', '~> 2.1'
 gem 'json'
 
-#Entity gems
+# Entity gems
 gem 'dry-struct', '~> 0.5'
 gem 'dry-types', '~> 0.5'
+
+# Controllers and services
+gem 'dry-monads'
+gem 'dry-transaction'
+gem 'dry-validation'
 
 #  Networking
 gem'http',  '~>  3.0'
@@ -37,10 +42,12 @@ gem 'ruby-debug-ide'
 
 # Testing
 group :test do
+  gem 'headless', '~> 2.3'
   gem 'minitest', '~> 5.11'
   gem 'minitest-rg', '~> 5.2'
   gem 'simplecov', '~> 0.16'
   gem 'vcr', '~> 4.0'
+  gem 'watir', '~> 6.14'
   gem 'webmock', '~> 3.4'
 end
 

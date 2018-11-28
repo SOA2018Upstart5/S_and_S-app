@@ -21,16 +21,6 @@ describe 'Tests NL API library' do
       _(analyze.importance).must_equal CORRECT['Analze']['importance']
     end
 
-=begin
-    it 'BAD: should raise exception on incorrect language' do
-      proc do
-        CodePraise::Github::ProjectMapper
-          .new(GITHUB_TOKEN)
-          .find(USERNAME, 'foobar')
-      end.must_raise CodePraise::Github::Api::Response::NotFound
-    end
-=end
-
     it 'BAD: should raise exception when unauthorized' do
       proc do
         SeoAssistant::OutAPI::Analyze.new('BAD_CREDS', SCRIPT).process
@@ -56,16 +46,6 @@ describe 'Tests Translate API library' do
       _(translate).must_equal CORRECT['Translate']
 
     end
-
-=begin
-    it 'BAD: should raise exception on incorrect language' do
-      proc do
-        CodePraise::Github::ProjectMapper
-          .new(GITHUB_TOKEN)
-          .find(USERNAME, 'foobar')
-      end.must_raise CodePraise::Github::Api::Response::NotFound
-    end
-=end
 
     it 'BAD: should raise exception when unauthorized' do
       proc do
