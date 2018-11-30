@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 ruby '2.5.1'
+gem 'bundler'
 
 # Web application related
 gem 'puma', '~> 3.11'
@@ -32,7 +33,7 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg', '~> 0.18'
+  gem 'pg'
 end
 
 #Debuging

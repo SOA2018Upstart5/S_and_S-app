@@ -25,7 +25,7 @@ Here are the links of APIs we use:
 
 **Installation**
 ```
-$ bundle install
+$ bundle install --without production
 ```
 
 **Create databes**
