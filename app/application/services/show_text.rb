@@ -16,11 +16,11 @@ module SeoAssistant
 			private
 
 			def decode_article(input)
-				if input.empty?
+				article_encoded = input.encode('UTF-8', invalid: :replace, undef: :replace)
+				article_unescaped = URI.unescape(article_encoded).to_s
+				if article_unescaped.empty?
 					Failure('Nothing pass to this page')
 				else
-					article_encoded = input.encode('UTF-8', invalid: :replace, undef: :replace)
-					article_unescaped = URI.unescape(article_encoded).to_s
 					Success(text: article_unescaped)
 				end
 			end
