@@ -13,6 +13,7 @@ module SeoAssistant
     plugin :halt
     plugin :flash
     plugin :all_verbs
+    plugin :caching
     plugin :render, engine: 'slim', views: 'app/presentation/views'
     plugin :assets, path: 'app/presentation/assets', css: 'style.css', js: 'operation.js'
 
@@ -31,11 +32,11 @@ module SeoAssistant
         if result.failure?
           flash[:error] = result.failure
           view 'home', locals: { texts: [] }
-        end
-
-        texts = result.value!
-        if texts.none?
-          flash.now[:notice] = 'Add an article to get started'
+        else
+          texts = result.value!
+          if texts.none?
+            flash.now[:notice] = 'Add an article to get started'
+          end
         end
 
         session[:watching] = texts.map(&:text)
@@ -46,12 +47,13 @@ module SeoAssistant
 
       routing.on 'answer' do
         routing.is do
+          # Add text
           # GET /answer/
           routing.post do
             # Get the input of article and check its form
             article_request = Forms::ArticleRequest.call(routing.params)
             # find if article exist and 
-            text_made = Service::AddText.new.call(article_request)
+            text_made = Service::AddText.new.call(article: article_request)
 
             if text_made.failure?
               flash[:error] = text_made.failure
@@ -62,7 +64,7 @@ module SeoAssistant
             # Add new text to watched set in cookies
             session[:watching].insert(0, new_text.text).uniq!
             
-            routing.redirect "answer/#{new_text.text}"
+            routing.redirect "/"
           end
         end
 
@@ -78,11 +80,11 @@ module SeoAssistant
 
             routing.redirect '/'
           end
-
+          # Show text
           # GET /answer/text
           routing.get do
             # find the text into database
-            show_text = Service::ShowText.new.call(article)
+            show_text = Service::ShowText.new.call(article: article)
 
             if show_text.failure?
               flash[:error] = show_text.failure
@@ -91,6 +93,8 @@ module SeoAssistant
 
             text_info = show_text.value!
             viewable_text = Views::Text.new(text_info)
+
+            esponse.expires 60, public: true
             view 'result', locals: { text: viewable_text }
           end
         end

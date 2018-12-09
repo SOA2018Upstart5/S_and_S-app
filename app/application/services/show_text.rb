@@ -11,29 +11,32 @@ module SeoAssistant
       include Dry::Transaction
 
 			step :decode_article
-      step :find_text
+			step :request_text
+			step :depresent_text
 			
 			private
 
 			def decode_article(input)
-				article_encoded = input.encode('UTF-8', invalid: :replace, undef: :replace)
-				article_unescaped = URI.unescape(article_encoded).to_s
-				if article_unescaped.empty?
+				if input[:article].empty?
 					Failure('Nothing pass to this page')
 				else
-					Success(text: article_unescaped)
+					Success(text: input[:article])
 				end
 			end
 			
-			def find_text(input)
-				text = text_in_database(input)
-        Success(text)
-      rescue StandardError => error
-        Failure('Having trouble accessing the database')
+			def request_text(input)
+				result = Gateway::Api.new(SeoAssistant::App.config).show_text(input[:text])
+				result.success? ? Success(result.payload) : Failure(result.message)
+      rescue StandardError
+        Failure('Cannot show information right now; please try again later')
 			end
 			
-			def text_in_database(input)
-        Repository::For.klass(Entity::Text).find_text(input[:text])
+			def depresent_text(input)
+        Representer::Text.new(OpenStruct.new)
+          .from_json(text_json)
+          .yield_self { |text| Success(text) }
+      rescue StandardError
+        Failure('Error in the text -- please try again')
       end
 			
     end
