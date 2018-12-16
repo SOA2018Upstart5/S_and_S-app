@@ -20,6 +20,10 @@ gem 'dry-monads'
 gem 'dry-transaction'
 gem 'dry-validation'
 
+# Representers
+gem 'multi_json'
+gem 'roar'
+
 #  Networking
 gem'http',  '~>  3.0'
 

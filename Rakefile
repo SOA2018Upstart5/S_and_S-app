@@ -8,7 +8,14 @@ end
 
 desc 'Run tests once'
 Rake::TestTask.new(:spec) do |t|
-  t.pattern = 'spec/*_spec.rb'
+  t.pattern = 'spec/tests_unit/*_spec.rb'
+  t.warning = false
+end
+
+desc 'Run acceptance tests'
+# NOTE: run `rake run:test` in another process
+Rake::TestTask.new(:spec_accept) do |t|
+  t.pattern = 'spec/tests_acceptance/*_acceptance.rb'
   t.warning = false
 end
 

@@ -16,7 +16,7 @@ module SeoAssistant
       end
 
       def texts_list(list)
-        @request.texts_list(list)
+        @request.articles_list(list)
       end
 
       def add_text(encoded_text)

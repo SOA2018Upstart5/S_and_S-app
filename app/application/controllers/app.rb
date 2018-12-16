@@ -32,12 +32,14 @@ module SeoAssistant
         if result.failure?
           flash[:error] = result.failure
           view 'home', locals: { texts: [] }
-        else
-          texts = result.value!
-          if texts.none?
-            flash.now[:notice] = 'Add an article to get started'
-          end
         end
+          
+        texts = result.value!
+        puts texts
+        if texts.none?
+          flash.now[:notice] = 'Add an article to get started'
+        end
+        
 
         session[:watching] = texts.map(&:text)
 

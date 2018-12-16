@@ -35,63 +35,10 @@ $ rake db:migrate
 or
 $ RACK_ENV=test rake db:migrate
 ```
+## Usage:
 
-**Google path setting**
+
+
 ```
-$ export GOOGLE_APPLICATION_CREDENTIALS="config/google_credential.json"
-```
-
-
-**Search a picture with keyword**
-```ruby
-search_pic = SeoAssistant::OutAPI::Unsplash
-  .new(SeoAssistant::App.config.UNSPLASH_ACCESS_KEY), "dog")
-puts search_pic.process['results'][0]['urls']['raw'] #string
-```
-> <dog_picture_first_url>
-
-**Translate to English**
-```ruby
-translate_word = SeoAssistant::OutAPI::Translate.new("狗,貓,公車")
-puts translate_word.process #string
-```
-> "Dog, cat, bus"
-
-**Analyze text**
-```ruby
-text = "Google, headquartered in Mountain View, unveiled the new Android phone at the Consumer Electronic Show./
-            Sundar Pichai said in his keynote that users love their new Android phones."
-analyze_text = SeoAssistant::OutAPI::Analyze
-  .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS, text)
-puts analyze_text.process.keyword #array
-puts analyze_text.process.type #array
-puts analyze_text.process.importance #array
-```
-> Google   users   phone   Android   Sundar Pichai   Mountain View   Consumer Electronic Show   phones   keynote
-
-> ORGANIZATION   PERSON   CONSUMER_GOOD   CONSUMER_GOOD   PERSON   LOCATION   EVENT   CONSUMER_GOOD   OTHER
-
-> 0.22637900710105896   0.191544771194458   0.18347220122814178   0.09827315807342529   0.09172182530164719   0.07637178152799606   0.05269023776054382   0.052234947681427   0.027312073856592
-
-
-**Overall usage**
-```ruby
-text = SeoAssistant::OutAPI::TextMapper
-  .new(JSON.parse(SeoAssistant::App.config.GOOGLE_CREDS), SeoAssistant::App.config.UNSPLASH_ACCESS_KEY)
-  .process("狗是最好的朋友")
-puts text.text #array
-puts text.keywords[0].url #string of many url link join with '\n'
-```
-> "狗是最好的朋友"
-> <dog_picture_random_url>
-
-```ruby
-many_url = text.keywords[0].url.split('\n')
-
-many_url.map do |url|
-    a=gets.chomp.to_s
-    if a == "ok"
-        puts url
-    end
-end
+$ rackup -p 9000
 ```

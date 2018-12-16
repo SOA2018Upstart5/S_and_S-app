@@ -4,6 +4,7 @@ require 'roar/decorator'
 require 'roar/json'
 
 require_relative 'text_representer'
+require_relative '../values/openstruct_with_links'
 
 module SeoAssistant
   module Representer
