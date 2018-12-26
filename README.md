@@ -35,10 +35,13 @@ $ rake db:migrate
 or
 $ RACK_ENV=test rake db:migrate
 ```
-## Usage:
-
-
-
+**Run local service**
 ```
 $ rackup -p 9000
 ```
+
+**Debuging**
+```ruby
+require 'pry'; binding.pry
+```
+

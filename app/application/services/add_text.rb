@@ -2,6 +2,7 @@
 #not finished
 
 require 'dry/transaction'
+require 'uri'
 
 module SeoAssistant
   module Service
@@ -16,17 +17,20 @@ module SeoAssistant
       private
 
       def validate_input(input)
+        #encoding
         if input.success?
           article = input[:article].to_s
-          Success(text: article)
+          text_encoding = URI.escape(article)
+          Success(text_encoding: text_encoding)
         else
           Failure(input.errors.values.join('; '))
         end
       end
 
       def request_text(input)
+        # API only receive encoding messenger
         result = Gateway::Api.new(SeoAssistant::App.config)
-          .add_text(input[:article])
+          .add_text(input[:text_encoding])
 
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue StandardError => e
@@ -34,7 +38,7 @@ module SeoAssistant
         Failure('Cannot add text right now; please try again later')
       end
 
-      def depresent_text(input)
+      def depresent_text(text_json)
         Representer::Text.new(OpenStruct.new)
           .from_json(text_json)
           .yield_self { |text| Success(text) }
