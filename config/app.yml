@@ -19,4 +19,5 @@ app_test:
   
 
 production:
-  API_HOST: https://S_and_S-api.herokuapp.com
+  API_HOST: https://sands-seoassistant-api.herokuapp.com
+  
