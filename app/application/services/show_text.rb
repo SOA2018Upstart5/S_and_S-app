@@ -30,7 +30,7 @@ module SeoAssistant
       rescue StandardError
         Failure('Cannot show information right now; please try again later')
 			end
-
+			
 			def depresent_text(text_json)
         Representer::Text.new(OpenStruct.new)
           .from_json(text_json)
