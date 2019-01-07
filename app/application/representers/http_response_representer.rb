@@ -8,10 +8,10 @@ module SeoAssistant
 		#  Representerfor  HTTP  response  information
 		class HttpResponse < Roar::Decorator
 			include Roar::JSON
-			
+
 			property  :status
 			property  :message
-			
+
 			HTTP_CODE={
 				ok:200,
 				created:201,
@@ -24,7 +24,7 @@ module SeoAssistant
 				cannot_process:422,
 				internal_error:500
 			}.freeze
-			
+
 			def http_status_code
 				HTTP_CODE[represented.status]
 			end

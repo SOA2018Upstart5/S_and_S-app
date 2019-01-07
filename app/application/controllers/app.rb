@@ -62,7 +62,7 @@ module SeoAssistant
             # Add new text to watched set in cookies
             new_text = text_made.value!
             session[:watching].insert(0, new_text.text).uniq!
-            
+
             # redirect with encoding text
             new_text_encoding = URI.escape(new_text.text)
             routing.redirect "answer/#{new_text_encoding}"
@@ -87,7 +87,7 @@ module SeoAssistant
           routing.get do
             # find the text into database
             show_text = Service::ShowText.new.call(article_encoding: article)
-            
+
             if show_text.failure?
               flash[:error] = show_text.failure
               routing.redirect '/'
