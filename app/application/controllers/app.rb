@@ -93,9 +93,9 @@ module SeoAssistant
               routing.redirect '/'
             end
 
+
             text_info = show_text.value!
             viewable_text = Views::Text.new(text_info)
-
             response.expires 60, public: true
             view 'result', locals: { text: viewable_text }
           end
